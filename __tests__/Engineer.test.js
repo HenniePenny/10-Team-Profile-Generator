@@ -13,10 +13,10 @@ describe("Engineer", () => {
 });
 
 describe("methodsForEngineer", () => {
-  const name = "Marie";
-  const id = "5";
-  const email = "marie@test.com";
-  const gitHubUsername = "mariecoding";
+  const name = "Fatma";
+  const id = "2";
+  const email = "fatma@test.com";
+  const gitHubUsername = "fatmacoding";
 
   //doing the additional test for getName()
   it("should return the engineer's name", () => {
