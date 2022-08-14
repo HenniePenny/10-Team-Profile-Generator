@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/HenniePenny/10-Team-Profile-Generator#readme",
   "dependencies": {
+    "chalk": "^4.1.0",
     "inquirer": "^8.2.4",
     "jest": "^28.1.3"
   }
