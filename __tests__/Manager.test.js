@@ -2,7 +2,7 @@ const Manager = require("../lib/Manager");
 
 describe("Manager", () => {
   describe("Constructor", () => {
-    it("should should return an object with the properties 'name', 'id', 'email' and 'officeNumber' when called with 'new' keyword", () => {
+    it("should return an object with the properties 'name', 'id', 'email' and 'officeNumber' when called with 'new' keyword", () => {
       const obj = new Manager();
 
       //test for name from Employee class as well
