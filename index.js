@@ -1,8 +1,8 @@
 const inquirer = require("inquirer");
 const Employee = require("./lib/Employee");
-// const Engineer =
-// const Manager =
-// const Intern =
+const Engineer = require("./lib/Engineer");
+const Manager = require("./lib/Manager");
+const Intern = require("./lib/Intern");
 
 //! const questionsManager - start with manager questions, then loop over the other employees
 const questions = [
