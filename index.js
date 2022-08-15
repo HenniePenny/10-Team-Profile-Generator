@@ -6,10 +6,10 @@ const Engineer = require("./lib/Engineer");
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
 const generateHTML = require("./lib/GenerateHTML");
-const { inherits } = require("util");
+// const { inherits } = require("util"); What did I do here???
 const newTeam = [];
 
-//*make choice of new colleague first, then loop back to this question after engineer or intern
+//*make choice of new colleague first, then loop back to this question after each new colleague
 const questions = [
   {
     type: "list",
@@ -19,7 +19,7 @@ const questions = [
   },
 ];
 
-//*question or the Manager is the first set of questions, asked only once according to acceptance criteria
+//*question set for the Manager, should go back to questions afterwards, for new choice of colleague
 const questionsManager = [
   {
     type: "input",
@@ -43,7 +43,7 @@ const questionsManager = [
   },
 ];
 
-//*questions for engineer, should go back to questionsChoice afterwards
+//*questions for engineer, should go back to questions afterwards, for new choice of colleague
 const questionsEngineer = [
   {
     type: "input",
@@ -67,7 +67,7 @@ const questionsEngineer = [
   },
 ];
 
-//*questions for intern, should go back to questionsChoice afterwards
+//*questions for intern, should go back to questions afterwards, for new choice of colleague
 const questionsIntern = [
   {
     type: "input",
