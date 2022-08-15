@@ -6,8 +6,20 @@ const Engineer = require("./lib/Engineer");
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
 const generateHTML = require("./lib/GenerateHTML");
+const { inherits } = require("util");
+const newTeam = [];
 
-//question or the Manager is the first set of questions, asked only once according to acceptance criteria
+//*make choice of new colleague first, then loop back to this question after engineer or intern
+const questions = [
+  {
+    type: "list",
+    name: "position",
+    message: chalk.yellow("Please create a new position or quit."),
+    choices: ["Manager", "Engineer", "Intern", "quit"],
+  },
+];
+
+//*question or the Manager is the first set of questions, asked only once according to acceptance criteria
 const questionsManager = [
   {
     type: "input",
@@ -31,17 +43,7 @@ const questionsManager = [
   },
 ];
 
-//choice to make after adding manager, loop back to this question after engineer or intern
-const questionsChoice = [
-  {
-    type: "list",
-    name: "addColleague",
-    message: chalk.yellow("Please add another team member or quit."),
-    choices: ["Engineer", "Intern", "quit"],
-  },
-];
-
-//questions for engineer, should go back to questionsChoice afterwards
+//*questions for engineer, should go back to questionsChoice afterwards
 const questionsEngineer = [
   {
     type: "input",
@@ -65,7 +67,7 @@ const questionsEngineer = [
   },
 ];
 
-//questions for intern, should go back to questionsChoice afterwards
+//*questions for intern, should go back to questionsChoice afterwards
 const questionsIntern = [
   {
     type: "input",
@@ -84,28 +86,47 @@ const questionsIntern = [
   },
 ];
 
-let inProgress = true;
-
-const init = () => {
-  inquirer.prompt(questions).then((answers) => {
-    console.log(answers);
-    switch (answers.position) {
-      case "Engineer":
-        inquirer.prompt(questionsEngineer).then((answersEngineer) => {
-          console.log(answersEngineer);
-        });
-        break;
-
-      case "quit":
-        inProgress = false;
-        break;
-
-      default:
-        inProgress = false;
-        break;
-    }
+const getManager = () => {
+  inquirer.prompt(questionsManager).then((answersManager) => {
+    console.log(answersManager);
+    const generatedManager = new Manager(
+      answersManager.nameManager,
+      answersManager.idManager,
+      answersManager.emailManager,
+      answersManager.officeNoManager
+    );
+    newTeam.push(generatedManager);
   });
+  init();
 };
-init();
 
-//!do a while loop here ???
+// const getQuestions = () => {
+//   inquirer.prompt(questionQuestions).then((answerQuestions) => {
+//     console.log(answerChoice);
+//     const generatedChoice = new Choice(answerChoice.addColleague);
+//     newTeam.push(generatedChoice);
+//   });
+// };
+// getChoice();
+
+// let inProgress = true;
+
+// const init = () => {
+//   inquirer.prompt(questions).then((answers) => {
+//     console.log(answers);
+//     switch (answers.position) {
+//       case "Manager":
+//         getManager();
+//         break;
+
+// case "quit":
+//   inProgress = false;
+//   break;
+
+// default:
+//   inProgress = false;
+//   break;
+//     }
+//   });
+// };
+// init();
