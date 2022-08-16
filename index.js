@@ -86,6 +86,7 @@ const questionsIntern = [
   },
 ];
 
+//*create new Manager object according to user input and call init function to write to html file
 const getManager = () => {
   inquirer.prompt(questionsManager).then((answersManager) => {
     console.log(answersManager);
@@ -96,6 +97,34 @@ const getManager = () => {
       answersManager.officeNoManager
     );
     newTeam.push(generatedManager);
+  });
+  init();
+};
+
+//*create new Engineer object according to user input and call init function to write to html file
+const getEngineer = () => {
+  inquirer.prompt(questionsEngineer).then((answersEngineer) => {
+    console.log(answersEngineer);
+    const generatedEngineer = new Engineer(
+      answersEngineer.nameEngineer,
+      answersEngineer.idEngineer,
+      answersEngineer.emailEngineer,
+      answersEngineer.github
+    );
+    newTeam.push(generatedEngineer);
+  });
+  init();
+};
+
+const getIntern = () => {
+  inquirer.prompt(questionsIntern).then((answersIntern) => {
+    console.log(answersIntern);
+    const generatedIntern = new Intern(
+      answersIntern.nameIntern,
+      answersIntern.idIntern,
+      answersIntern.school
+    );
+    newTeam.push(generatedIntern);
   });
   init();
 };
@@ -111,22 +140,22 @@ const getManager = () => {
 
 // let inProgress = true;
 
-// const init = () => {
-//   inquirer.prompt(questions).then((answers) => {
-//     console.log(answers);
-//     switch (answers.position) {
-//       case "Manager":
-//         getManager();
-//         break;
+const init = () => {
+  inquirer.prompt(questions).then((answers) => {
+    console.log(answers);
+    switch (answers.position) {
+      case "Manager":
+        getManager();
+        break;
 
-// case "quit":
-//   inProgress = false;
-//   break;
+      case "quit":
+        inProgress = false;
+        break;
 
-// default:
-//   inProgress = false;
-//   break;
-//     }
-//   });
-// };
-// init();
+      default:
+        inProgress = false;
+        break;
+    }
+  });
+};
+init();
