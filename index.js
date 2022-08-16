@@ -6,6 +6,7 @@ const Engineer = require("./lib/Engineer");
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
 const generateHTML = require("./lib/GenerateHTML");
+const { Console } = require("console");
 // const { inherits } = require("util"); What did I do here???
 const newTeam = [];
 
@@ -129,6 +130,15 @@ const getIntern = () => {
   init();
 };
 
+//When user quits, the html file should be created
+const quitQuestions = (htmlFile) => {
+  fs.writeFile("./dist/index.html", htmlFile, (err) =>
+    err
+      ? console.log(err)
+      : console.log(chalk.bgYellow("Your demo_README.md file was created!"))
+  );
+};
+
 // const getQuestions = () => {
 //   inquirer.prompt(questionQuestions).then((answerQuestions) => {
 //     console.log(answerChoice);
@@ -138,7 +148,7 @@ const getIntern = () => {
 // };
 // getChoice();
 
-// let inProgress = true;
+let inProgress = true;
 
 const init = () => {
   inquirer.prompt(questions).then((answers) => {
@@ -148,7 +158,16 @@ const init = () => {
         getManager();
         break;
 
+      case "Engineer":
+        getEngineer();
+        break;
+
+      case "Intern":
+        getIntern();
+        break;
+
       case "quit":
+        quitQuestions();
         inProgress = false;
         break;
 
@@ -157,5 +176,7 @@ const init = () => {
         break;
     }
   });
+  //Todo: Do I need to catch any errors here?
 };
+
 init();
