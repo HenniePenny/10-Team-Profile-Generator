@@ -6,8 +6,9 @@ const Engineer = require("./lib/Engineer");
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
 const generateHTML = require("./lib/GenerateHTML");
+//!these are showing up out of nowhere?
 const { Console } = require("console");
-// const { inherits } = require("util"); What did I do here???
+const { inherits } = require("util");
 const newTeam = [];
 
 //*make choice of new colleague first, then loop back to this question after each new colleague
@@ -42,6 +43,12 @@ const questionsManager = [
     name: "officeNoManager",
     message: chalk.green("Please type in the Manager's office number:"),
   },
+  {
+    type: "list",
+    name: "nextPosition",
+    message: chalk.yellow("Please create a new position or quit."),
+    choices: ["Engineer", "Intern", "quit"],
+  },
 ];
 
 //*questions for engineer, should go back to questions afterwards, for new choice of colleague
@@ -66,6 +73,12 @@ const questionsEngineer = [
     name: "github",
     message: chalk.magenta("Please type in the Engineer's GitHub username:"),
   },
+  {
+    type: "list",
+    name: "nextPosition",
+    message: chalk.yellow("Please create a new position or quit."),
+    choices: ["Engineer", "Intern", "quit"],
+  },
 ];
 
 //*questions for intern, should go back to questions afterwards, for new choice of colleague
@@ -85,6 +98,12 @@ const questionsIntern = [
     name: "school",
     message: chalk.blue("Please type in the Intern's school:"),
   },
+  {
+    type: "list",
+    name: "nextPosition",
+    message: chalk.yellow("Please create a new position or quit."),
+    choices: ["Engineer", "Intern", "quit"],
+  },
 ];
 
 //*create new Manager object according to user input and call init function to write to html file
@@ -99,7 +118,8 @@ const getManager = () => {
     );
     newTeam.push(generatedManager);
   });
-  init();
+  // init();
+  // getQuestions();
 };
 
 //*create new Engineer object according to user input and call init function to write to html file
@@ -113,8 +133,27 @@ const getEngineer = () => {
       answersEngineer.github
     );
     newTeam.push(generatedEngineer);
+    switch (answersEngineer.nextPosition) {
+      case "Engineer":
+        getEngineer();
+        break;
+
+      case "Intern":
+        getIntern();
+        break;
+
+      case "quit":
+        // writeHtmlFile();
+        // inProgress = false;
+        break;
+
+      default:
+        // inProgress = false;
+        break;
+    }
   });
-  init();
+  // init();
+  // getQuestions();
 };
 
 const getIntern = () => {
@@ -126,37 +165,54 @@ const getIntern = () => {
       answersIntern.school
     );
     newTeam.push(generatedIntern);
+    switch (answersIntern.nextPosition) {
+      case "Engineer":
+        getEngineer();
+        break;
+
+      case "Intern":
+        getIntern();
+        break;
+
+      case "quit":
+        // writeHtmlFile();
+        // inProgress = false;
+        break;
+
+      default:
+        // inProgress = false;
+        break;
+    }
   });
-  init();
+  // init();
+  // getQuestions();
 };
 
 //When user quits, the html file should be created
-const quitQuestions = (htmlFile) => {
+const writeHtmlFile = (htmlFile) => {
   fs.writeFile("./dist/index.html", htmlFile, (err) =>
     err
       ? console.log(err)
-      : console.log(chalk.bgYellow("Your demo_README.md file was created!"))
+      : console.log(chalk.bgYellow("Your HTML file was created!"))
   );
 };
 
-// const getQuestions = () => {
-//   inquirer.prompt(questionQuestions).then((answerQuestions) => {
-//     console.log(answerChoice);
-//     const generatedChoice = new Choice(answerChoice.addColleague);
-//     newTeam.push(generatedChoice);
-//   });
-// };
+const getQuestions = () => {
+  inquirer.prompt(questions).then((answers) => {
+    console.log(answerChoice);
+  });
+};
 // getChoice();
 
-let inProgress = true;
+// let inProgress = true;
 
 const init = () => {
-  inquirer.prompt(questions).then((answers) => {
-    console.log(answers);
-    switch (answers.position) {
-      case "Manager":
-        getManager();
-        break;
+  inquirer.prompt(questionsManager).then((answersManager) => {
+    console.log(answersManager);
+    switch (answersManager.nextPosition) {
+      // case "Manager":
+      //   getManager();
+      //   break;
 
       case "Engineer":
         getEngineer();
@@ -167,15 +223,19 @@ const init = () => {
         break;
 
       case "quit":
-        quitQuestions();
-        inProgress = false;
+        writeHtmlFile();
+        // inProgress = false;
         break;
 
       default:
-        inProgress = false;
+        // inProgress = false;
         break;
     }
   });
+  // .then((answers) => {
+  //   const htmlFile = generateHTML(answers);
+  //   writeHtmlFile(htmlFile);
+  // });
   //Todo: Do I need to catch any errors here?
 };
 
